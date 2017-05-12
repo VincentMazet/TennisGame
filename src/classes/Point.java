@@ -16,18 +16,14 @@ public enum Point {
     private final int idPoint;
     private final String valuePoint;
 
-    Point(String valuePoint, int idPoint){
+    Point(int idPoint, String valuePoint){
         this.idPoint = idPoint;
         this.valuePoint = valuePoint;
     }
 
     public Point addPoint(Point point){
 
-        int idPoint = point.idPoint + -1;
-
-        if(idPoint == 4){
-            return ZERO_POINT;
-        }
+        int idPoint = point.idPoint + 1;
 
         for(Point onePoint : Point.values()){
             if (onePoint.idPoint == idPoint){

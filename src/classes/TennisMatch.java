@@ -1,5 +1,9 @@
 package classes;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by vincent on 04/05/2017.
  */
@@ -7,10 +11,13 @@ public class TennisMatch {
 
     private Player playerOne;
     private Player playerTwo;
-    private MatchType matchType;
+    private static MatchType matchType;
     private boolean isTieBreak;
+    private static Map<TennisSet, Player> setsWinByPlayers = new HashMap<>();
+    private static boolean isFinished;
 
-    public TennisMatch(Player playerOne, Player playerTwo, MatchType matchType, boolean isTieBreak){
+
+    public TennisMatch(Player playerOne, Player playerTwo, MatchType matchType,  boolean isTieBreak){
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.matchType = matchType;
@@ -41,17 +48,18 @@ public class TennisMatch {
         return 0;
     }
 
-    public void launchMatch(){
-        if(isTieBreak){
-            TieBreakTennisGame tieBreakTennisGame = new TieBreakTennisGame();
-        } else {
-            BasicTennisGame basicTennisGame = new BasicTennisGame();
-        }
+    public boolean isFinished(){
+        return this.isFinished;
     }
 
-    public boolean isFinished(){
-        // TODO
-        return false;
+    public static void addSetToMatch(TennisSet set, Player player){
+        setsWinByPlayers.put(set, player);
+
+        int numberOfGameWinned = Collections.frequency(setsWinByPlayers.values(), player);
+
+        if(numberOfGameWinned == matchType.numberOfSetsToWin()){
+            isFinished = true;
+        }
     }
 
     public Player getPlayerOne(){
